@@ -17,8 +17,8 @@ export const lightTheme = createTheme({
     //   active: "#212B36",
     // },
     background: {
-      paper: "#EDF1FF",
-      default: "#FFF",
+      paper: "#F9FAFB",
+      default: "#F9FAFB",
     },
   },
   components: {
@@ -35,6 +35,10 @@ export const lightTheme = createTheme({
         h3: {
           fontSize: 20,
           fontWeight: 700,
+        },
+        body1: {
+          fontSize: 14,
+          fontWeight: 400,
         },
         body2: {
           fontSize: 20,

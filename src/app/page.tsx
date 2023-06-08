@@ -1,5 +1,5 @@
 "use client";
-import { Navbar, StatsCard } from "@/components/ui";
+import { Navbar, Record, StatsCard } from "@/components/ui";
 import { Shop2TwoTone } from "@mui/icons-material";
 import {
   Box,
@@ -41,6 +41,27 @@ const HomePage = () => {
       color: "#7A0C2E",
       background: "#FFE7D9",
       icon: <Shop2TwoTone />,
+    },
+  ];
+
+  const items = [
+    {
+      image: "/assets/images/bgcard.png",
+      product: "Chamarra genérica xs",
+      seller: "Edward Reyes",
+      time: "hace 8 horas",
+    },
+    {
+      image: "/assets/images/bgcard.png",
+      product: "Chamarra genérica xs",
+      seller: "Edward Reyes",
+      time: "hace 8 horas",
+    },
+    {
+      image: "/assets/images/bgcard.png",
+      product: "Chamarra genérica xs",
+      seller: "Edward Reyes",
+      time: "hace 8 horas",
     },
   ];
 
@@ -104,7 +125,7 @@ const HomePage = () => {
             </Card>
           </Grid>
         </Grid>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} mb={4}>
           {statsCards.map((card, index) => (
             <Grid key={index} item xs={3}>
               <StatsCard
@@ -117,6 +138,11 @@ const HomePage = () => {
               </StatsCard>
             </Grid>
           ))}
+        </Grid>
+        <Grid container>
+          <Grid item xs={12}>
+            <Record items={items} />
+          </Grid>
         </Grid>
       </Navbar>
     </>
