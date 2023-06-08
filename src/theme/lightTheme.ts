@@ -11,6 +11,7 @@ export const lightTheme = createTheme({
     },
     text: {
       primary: "#212B36",
+      secondary: "#005249",
     },
     // action: {
     //   active: "#212B36",
@@ -31,9 +32,17 @@ export const lightTheme = createTheme({
           fontSize: 24,
           fontWeight: 600,
         },
+        h3: {
+          fontSize: 20,
+          fontWeight: 700,
+        },
         body2: {
           fontSize: 20,
           fontWeight: 500,
+        },
+        overline: {
+          fontSize: 12,
+          fontWeight: 700,
         },
       },
     },
