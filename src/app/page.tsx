@@ -71,7 +71,7 @@ const HomePage = () => {
         <Grid container spacing={2} mb={4}>
           <Grid item xs={8}>
             <Card sx={{ display: "flex", background: "#DBF8E5" }}>
-              <CardContent>
+              <CardContent sx={{ flexGrow: 1 }}>
                 <Stack spacing={2} justifyContent="center" height="100%">
                   <Typography variant="h2" color="text.secondary">
                     ¡Bienvenido de nuevo a iStock!

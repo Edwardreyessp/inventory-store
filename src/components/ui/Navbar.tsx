@@ -4,6 +4,7 @@ import {
   Inbox,
   Mail,
   Menu,
+  SvgIconComponent,
 } from "@mui/icons-material";
 import {
   Box,
@@ -27,6 +28,8 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import MuiDrawer from "@mui/material/Drawer";
 import { NextPage } from "next";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 const drawerWidth = 240;
 
@@ -106,6 +109,10 @@ interface Props {
 export const Navbar: NextPage<Props> = ({ children }) => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const sections = [
+    { text: "Inicio", path: "/", icon: Inbox },
+    { text: "Inventario", path: "/inventory", icon: Mail },
+  ];
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -162,26 +169,14 @@ export const Navbar: NextPage<Props> = ({ children }) => {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  {index % 2 === 0 ? <Inbox /> : <Mail />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
+          {sections.map((item, index) => (
+            <ListItem key={index} disablePadding>
+              <Section
+                open={open}
+                text={item.text}
+                path={item.path}
+                Icon={item.icon}
+              />
             </ListItem>
           ))}
         </List>
@@ -191,5 +186,48 @@ export const Navbar: NextPage<Props> = ({ children }) => {
         {children}
       </Box>
     </Box>
+  );
+};
+
+interface SectionProps {
+  open: boolean;
+  text: string;
+  path: string;
+  Icon: SvgIconComponent;
+}
+
+const Section: NextPage<SectionProps> = ({ open, text, path, Icon }) => {
+  const pathname = usePathname();
+  const selected = pathname === path;
+
+  return (
+    <ListItemButton
+      component={Link}
+      href={path}
+      passHref
+      sx={{
+        minHeight: 48,
+        justifyContent: open ? "initial" : "center",
+        px: 2.5,
+        background: selected ? "#DBF8E5" : "none",
+        color: selected ? "secondary.main" : "primary.main",
+      }}
+    >
+      <ListItemIcon
+        sx={{
+          minWidth: 0,
+          mr: open ? 3 : "auto",
+          justifyContent: "center",
+        }}
+      >
+        <Icon color={selected ? "secondary" : "primary"} />
+      </ListItemIcon>
+      <ListItemText
+        primary={text}
+        sx={{
+          opacity: open ? 1 : 0,
+        }}
+      />
+    </ListItemButton>
   );
 };
