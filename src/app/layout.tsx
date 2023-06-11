@@ -3,6 +3,8 @@ import "./globals.css";
 import { Public_Sans } from "next/font/google";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import { lightTheme } from "@/theme";
+import { Navbar } from "@/components/ui";
+import { usePathname } from "next/navigation";
 
 const publicSans = Public_Sans({ subsets: ["latin"] });
 
@@ -16,11 +18,16 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const path = usePathname();
+  const isAuth = path.includes("auth");
+
   return (
     <html lang="en">
       <ThemeProvider theme={lightTheme}>
         <CssBaseline />
-        <body className={publicSans.className}>{children}</body>
+        <body className={publicSans.className}>
+          {isAuth ? <>{children}</> : <Navbar>{children}</Navbar>}
+        </body>
       </ThemeProvider>
     </html>
   );

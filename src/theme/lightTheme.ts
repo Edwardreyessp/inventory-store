@@ -27,26 +27,32 @@ export const lightTheme = createTheme({
         h1: {
           fontSize: 32,
           fontWeight: 600,
+          fontFamily: "inherit",
         },
         h2: {
           fontSize: 24,
           fontWeight: 600,
+          fontFamily: "inherit",
         },
         h3: {
           fontSize: 20,
           fontWeight: 700,
+          fontFamily: "inherit",
         },
         body1: {
           fontSize: 14,
           fontWeight: 400,
+          fontFamily: "inherit",
         },
         body2: {
           fontSize: 20,
           fontWeight: 500,
+          fontFamily: "inherit",
         },
         overline: {
           fontSize: 12,
           fontWeight: 700,
+          fontFamily: "inherit",
         },
       },
     },

@@ -67,84 +67,82 @@ const HomePage = () => {
 
   return (
     <>
-      <Navbar>
-        <Grid container spacing={2} mb={4}>
-          <Grid item xs={8}>
-            <Card sx={{ display: "flex", background: "#DBF8E5" }}>
-              <CardContent sx={{ flexGrow: 1 }}>
-                <Stack spacing={2} justifyContent="center" height="100%">
-                  <Typography variant="h2" color="text.secondary">
-                    ¡Bienvenido de nuevo a iStock!
-                  </Typography>
-                  <Typography
-                    variant="subtitle1"
-                    color="text.secondary"
-                    component="div"
-                  >
-                    Recuerda ver tu progreso de ventas y actualizar tu
-                    inventario constantemente.
-                  </Typography>
-                  <Box>
-                    <Button color="secondary">Actualizar</Button>
-                  </Box>
-                </Stack>
-              </CardContent>
-              <CardMedia
-                component="img"
-                sx={{ width: 400 }}
-                image="/assets/images/login.png"
-                alt="Hero"
-              />
-            </Card>
-          </Grid>
-          <Grid item xs={4}>
-            <Card
-              sx={{
-                display: "flex",
-                background: "url('/assets/images/bgcard.png') center/cover",
-                height: "100%",
-              }}
+      <Grid container spacing={2} mb={4}>
+        <Grid item xs={8}>
+          <Card sx={{ display: "flex", background: "#DBF8E5" }}>
+            <CardContent sx={{ flexGrow: 1 }}>
+              <Stack spacing={2} justifyContent="center" height="100%">
+                <Typography variant="h2" color="text.secondary">
+                  ¡Bienvenido de nuevo a iStock!
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  color="text.secondary"
+                  component="div"
+                >
+                  Recuerda ver tu progreso de ventas y actualizar tu inventario
+                  constantemente.
+                </Typography>
+                <Box>
+                  <Button color="secondary">Actualizar</Button>
+                </Box>
+              </Stack>
+            </CardContent>
+            <CardMedia
+              component="img"
+              sx={{ width: 400 }}
+              image="/assets/images/login.png"
+              alt="Hero"
+            />
+          </Card>
+        </Grid>
+        <Grid item xs={4}>
+          <Card
+            sx={{
+              display: "flex",
+              background: "url('/assets/images/bgcard.png') center/cover",
+              height: "100%",
+            }}
+          >
+            <CardContent>
+              <Stack spacing={1} justifyContent="end" height="100%">
+                <Typography
+                  color="primary.contrastText"
+                  variant="overline"
+                  sx={{ opacity: 0.48 }}
+                >
+                  MEJOR PRODUCTO
+                </Typography>
+                <Typography color="primary.contrastText" variant="h3">
+                  Nombre del producto más vendido
+                </Typography>
+                <Typography color="primary.contrastText">
+                  +50 ventas este mes
+                </Typography>
+              </Stack>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} mb={4}>
+        {statsCards.map((card, index) => (
+          <Grid key={index} item xs={3}>
+            <StatsCard
+              background={card.background}
+              number={card.number}
+              text={card.text}
+              color={card.color}
             >
-              <CardContent>
-                <Stack spacing={1} justifyContent="end" height="100%">
-                  <Typography
-                    color="primary.contrastText"
-                    variant="overline"
-                    sx={{ opacity: 0.48 }}
-                  >
-                    MEJOR PRODUCTO
-                  </Typography>
-                  <Typography color="primary.contrastText" variant="h3">
-                    Nombre del producto más vendido
-                  </Typography>
-                  <Typography color="primary.contrastText">
-                    +50 ventas este mes
-                  </Typography>
-                </Stack>
-              </CardContent>
-            </Card>
+              {card.icon}
+            </StatsCard>
           </Grid>
+        ))}
+      </Grid>
+      <Grid container>
+        <Grid item xs={12}>
+          <Record items={items} />
         </Grid>
-        <Grid container spacing={2} mb={4}>
-          {statsCards.map((card, index) => (
-            <Grid key={index} item xs={3}>
-              <StatsCard
-                background={card.background}
-                number={card.number}
-                text={card.text}
-                color={card.color}
-              >
-                {card.icon}
-              </StatsCard>
-            </Grid>
-          ))}
-        </Grid>
-        <Grid container>
-          <Grid item xs={12}>
-            <Record items={items} />
-          </Grid>
-        </Grid>
-      </Navbar>
+      </Grid>
     </>
   );
 };
