@@ -1,4 +1,4 @@
-import { deleteItem, getItemImage } from "@/app/database/firebase";
+import { deleteItem, getItemImage, updateItem } from "@/app/database/firebase";
 import { Item } from "@/interfaces";
 import {
   Delete,
@@ -21,9 +21,14 @@ import {
   Box,
   CardContent,
   IconButton,
+  TextField,
+  Stack,
 } from "@mui/material";
+import Image from "next/image";
 import { use, useEffect, useState } from "react";
 import Draggable from "react-draggable";
+import { useDropzone } from "react-dropzone";
+import { uuid } from "uuidv4";
 
 interface DialogProps {
   open: boolean;
@@ -40,9 +45,9 @@ export const ShowItem: React.FC<DialogProps> = ({
   update,
   setUpdate,
 }) => {
-  const { name, description, price, quantity, category, sales } = item;
   const [image, setImage] = useState<string>("");
   const [isLoading, setLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   useEffect(() => {
     const getImage = async () => {
@@ -59,15 +64,57 @@ export const ShowItem: React.FC<DialogProps> = ({
     setOpen(false);
   };
 
+  const handleClose = () => {
+    setOpen(false);
+    setIsEditing(false);
+  };
+
   if (isLoading) return <div>Cargando...</div>;
 
   return (
     <Dialog
       open={open}
-      onClose={() => setOpen(false)}
+      onClose={handleClose}
       PaperComponent={PaperComponent}
       aria-labelledby="draggable-dialog-title"
     >
+      {isEditing ? (
+        <ItemEdit
+          item={item}
+          setIsEditing={setIsEditing}
+          setUpdate={setUpdate}
+          setOpen={setOpen}
+          update={update}
+        />
+      ) : (
+        <ItemStatus
+          item={item}
+          setIsEditing={setIsEditing}
+          handleDelete={handleDelete}
+          image={image}
+        />
+      )}
+    </Dialog>
+  );
+};
+
+interface StatusProps {
+  item: Item;
+  setIsEditing: (isEditing: boolean) => void;
+  handleDelete: () => void;
+  image: string;
+}
+
+const ItemStatus: React.FC<StatusProps> = ({
+  item,
+  setIsEditing,
+  handleDelete,
+  image,
+}) => {
+  const { name, description, price, quantity, category, sales } = item;
+
+  return (
+    <>
       <DialogTitle
         style={{ cursor: "move", display: "flex", alignItems: "center" }}
         id="draggable-dialog-title"
@@ -75,7 +122,7 @@ export const ShowItem: React.FC<DialogProps> = ({
         <Typography variant="body2" flexGrow={1}>
           {name}
         </Typography>
-        <IconButton onClick={() => setOpen(false)}>
+        <IconButton onClick={() => setIsEditing(true)}>
           <Edit />
         </IconButton>
         <IconButton color="error" onClick={handleDelete}>
@@ -114,7 +161,119 @@ export const ShowItem: React.FC<DialogProps> = ({
           <Typography>Ventas: {sales}</Typography>
         </Box>
       </DialogContent>
-    </Dialog>
+    </>
+  );
+};
+
+interface EditProps {
+  item: Item;
+  setOpen: (open: boolean) => void;
+  update: boolean;
+  setUpdate: (update: boolean) => void;
+  setIsEditing: (isEditing: boolean) => void;
+}
+
+const ItemEdit: React.FC<EditProps> = ({
+  item,
+  setOpen,
+  update,
+  setUpdate,
+  setIsEditing,
+}) => {
+  const [image, setImage] = useState<File>();
+  const [editedItem, setEditedItem] = useState<Item>(item);
+
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: { "image/png": [".png"], "image/jpg": [".jpg"] },
+    onDrop: (acceptedFiles) => setImage(acceptedFiles[0]),
+  });
+
+  const handleChanges = (e: any) => {
+    setEditedItem({
+      ...editedItem,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleUpdate = async () => {
+    await updateItem(editedItem, image);
+    setOpen(false);
+    setUpdate(!update);
+    setIsEditing(false);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setIsEditing(false);
+  };
+
+  return (
+    <>
+      <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
+        Editar producto
+      </DialogTitle>
+      <DialogContent>
+        <Stack alignItems="center" spacing={1}>
+          <TextField
+            margin="dense"
+            name="name"
+            label="Nombre del producto"
+            value={editedItem.name}
+            onChange={handleChanges}
+          />
+          <TextField
+            margin="dense"
+            label="Descripción"
+            name="description"
+            value={editedItem.description}
+            onChange={handleChanges}
+          />
+          <TextField
+            margin="dense"
+            type="number"
+            label="Precio"
+            name="price"
+            value={editedItem.price}
+            onChange={handleChanges}
+          />
+          <TextField
+            margin="dense"
+            type="number"
+            label="Cantidad"
+            name="quantity"
+            value={editedItem.quantity}
+            onChange={handleChanges}
+          />
+          <TextField
+            margin="dense"
+            label="Categoría"
+            name="category"
+            value={editedItem.category}
+            onChange={handleChanges}
+          />
+          <div {...getRootProps({ className: "dropzone" })}>
+            <input {...getInputProps()} />
+            <Button color="secondary" fullWidth>
+              Cambiar imagen
+            </Button>
+          </div>
+          {image && (
+            <Image
+              src={URL.createObjectURL(image)}
+              alt="Imagen"
+              width={200}
+              height={200}
+            />
+          )}
+        </Stack>
+      </DialogContent>
+      <DialogActions>
+        <Button autoFocus onClick={handleClose}>
+          Cancelar
+        </Button>
+        <Button onClick={handleUpdate}>Guardar</Button>
+      </DialogActions>
+    </>
   );
 };
 

@@ -61,10 +61,25 @@ export const getItems = (): Promise<Item[]> => {
   });
 };
 
-export const updateItem = (item: Item) => {
+export const updateItem = (item: Item, file: File | undefined) => {
   const itemRef = ref(db, `items/${item.id}`);
+  if (!file) {
+    update(itemRef, item)
+      .then(() => {
+        console.log("Item updated successfully");
+      })
+      .catch((error) => {
+        console.error("Error updating item:", error);
+        throw error;
+      });
+    return;
+  }
+  const reference = storageRef(storage, "images/" + file.name);
+  uploadBytes(reference, file);
 
-  update(itemRef, item)
+  const editedItem = { ...item, image: reference.fullPath };
+
+  update(itemRef, editedItem)
     .then(() => {
       console.log("Item updated successfully");
     })
