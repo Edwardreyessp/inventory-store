@@ -1,53 +1,31 @@
 "use client";
-import { Item } from "@/components/cart";
+import { ItemCard } from "@/components/cart";
+import { CreateItem } from "@/components/ui";
 import { Add } from "@mui/icons-material";
 import { Box, Button, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Item } from "../../interfaces/item";
+import { getItems } from "../database/firebase";
 
 const InventoryPage = () => {
-  const items = [
-    {
-      name: "Nike Air Force 1 NDESTRUKT",
-      price: "$303.99",
-      quantity: "40",
-      image: "/assets/images/bgcard.png",
-    },
-    {
-      name: "Nike Air Force 1 NDESTRUKT",
-      price: "$303.99",
-      quantity: "40",
-      image: "/assets/images/bgcard.png",
-    },
-    {
-      name: "Nike Air Force 1 NDESTRUKT",
-      price: "$303.99",
-      quantity: "40",
-      image: "/assets/images/bgcard.png",
-    },
-    {
-      name: "Nike Air Force 1 NDESTRUKT",
-      price: "$303.99",
-      quantity: "40",
-      image: "/assets/images/bgcard.png",
-    },
-    {
-      name: "Nike Air Force 1 NDESTRUKT",
-      price: "$303.99",
-      quantity: "40",
-      image: "/assets/images/bgcard.png",
-    },
-    {
-      name: "Nike Air Force 1 NDESTRUKT",
-      price: "$303.99",
-      quantity: "40",
-      image: "/assets/images/bgcard.png",
-    },
-    {
-      name: "Nike Air Force 1 NDESTRUKT",
-      price: "$303.99",
-      quantity: "40",
-      image: "/assets/images/bgcard.png",
-    },
-  ];
+  const [open, setOpen] = useState<boolean>(false);
+  const [data, setData] = useState<Item[]>([]);
+  const [isLoading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    const fetchData = async () => {
+      const items = await getItems();
+      console.log(items);
+      setData(items);
+      setLoading(false);
+    };
+    fetchData();
+  }, [open]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Box>
@@ -55,21 +33,20 @@ const InventoryPage = () => {
         <Typography variant="h1" component="h1">
           Inventario
         </Typography>
-        <Button color="secondary" endIcon={<Add />}>
+        <Button
+          color="secondary"
+          endIcon={<Add />}
+          onClick={() => setOpen(true)}
+        >
           Agregar
         </Button>
       </Box>
       <Box display="flex" flexWrap="wrap" justifyContent="center" gap={2}>
-        {items.map((item, index) => (
-          <Item
-            key={index}
-            name={item.name}
-            price={item.price}
-            quantity={item.quantity}
-            image={item.image}
-          />
+        {Object.values(data).map((item, index) => (
+          <ItemCard key={index} item={item} />
         ))}
       </Box>
+      <CreateItem open={open} setOpen={setOpen} />
     </Box>
   );
 };
