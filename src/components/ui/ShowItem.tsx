@@ -1,6 +1,12 @@
-import { getItemImage } from "@/app/database/firebase";
+import { deleteItem, getItemImage } from "@/app/database/firebase";
 import { Item } from "@/interfaces";
-import { Edit, MonetizationOn, Sell, Widgets } from "@mui/icons-material";
+import {
+  Delete,
+  Edit,
+  MonetizationOn,
+  Sell,
+  Widgets,
+} from "@mui/icons-material";
 import {
   Dialog,
   DialogTitle,
@@ -23,9 +29,17 @@ interface DialogProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   item: Item;
+  update: boolean;
+  setUpdate: (update: boolean) => void;
 }
 
-export const ShowItem: React.FC<DialogProps> = ({ open, setOpen, item }) => {
+export const ShowItem: React.FC<DialogProps> = ({
+  open,
+  setOpen,
+  item,
+  update,
+  setUpdate,
+}) => {
   const { name, description, price, quantity, category, sales } = item;
   const [image, setImage] = useState<string>("");
   const [isLoading, setLoading] = useState(false);
@@ -38,6 +52,12 @@ export const ShowItem: React.FC<DialogProps> = ({ open, setOpen, item }) => {
     };
     getImage();
   }, [item]);
+
+  const handleDelete = async () => {
+    await deleteItem(item.id);
+    setUpdate(!update);
+    setOpen(false);
+  };
 
   if (isLoading) return <div>Cargando...</div>;
 
@@ -55,8 +75,11 @@ export const ShowItem: React.FC<DialogProps> = ({ open, setOpen, item }) => {
         <Typography variant="body2" flexGrow={1}>
           {name}
         </Typography>
-        <IconButton autoFocus onClick={() => setOpen(false)}>
+        <IconButton onClick={() => setOpen(false)}>
           <Edit />
+        </IconButton>
+        <IconButton color="error" onClick={handleDelete}>
+          <Delete />
         </IconButton>
       </DialogTitle>
       <DialogContent

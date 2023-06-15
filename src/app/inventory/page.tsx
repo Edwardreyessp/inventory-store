@@ -11,6 +11,7 @@ const InventoryPage = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [data, setData] = useState<Item[]>([]);
   const [isLoading, setLoading] = useState(false);
+  const [update, setUpdate] = useState<boolean>(false);
 
   useEffect(() => {
     setLoading(true);
@@ -21,7 +22,7 @@ const InventoryPage = () => {
       setLoading(false);
     };
     fetchData();
-  }, [open]);
+  }, [update]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -43,10 +44,20 @@ const InventoryPage = () => {
       </Box>
       <Box display="flex" flexWrap="wrap" justifyContent="center" gap={2}>
         {Object.values(data).map((item, index) => (
-          <ItemCard key={index} item={item} />
+          <ItemCard
+            key={index}
+            item={item}
+            update={update}
+            setUpdate={setUpdate}
+          />
         ))}
       </Box>
-      <CreateItem open={open} setOpen={setOpen} />
+      <CreateItem
+        open={open}
+        setOpen={setOpen}
+        update={update}
+        setUpdate={setUpdate}
+      />
     </Box>
   );
 };

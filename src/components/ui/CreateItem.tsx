@@ -20,9 +20,16 @@ import { uuid } from "uuidv4";
 interface DialogProps {
   open: boolean;
   setOpen: (open: boolean) => void;
+  update: boolean;
+  setUpdate: (update: boolean) => void;
 }
 
-export const CreateItem: FC<DialogProps> = ({ open, setOpen }) => {
+export const CreateItem: FC<DialogProps> = ({
+  open,
+  setOpen,
+  update,
+  setUpdate,
+}) => {
   const [image, setImage] = useState<File>();
   const [item, setItem] = useState<Item>({
     id: uuid(),
@@ -58,6 +65,7 @@ export const CreateItem: FC<DialogProps> = ({ open, setOpen }) => {
     if (image) {
       const path = await createItem(item, image);
       setItem({ ...item, image: path });
+      setUpdate(!update);
       onClose();
     }
   };

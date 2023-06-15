@@ -15,9 +15,11 @@ import { getItemImage } from "../../app/database/firebase";
 
 export interface ItemProps {
   item: Item;
+  update: boolean;
+  setUpdate: (open: boolean) => void;
 }
 
-export const ItemCard: NextPage<ItemProps> = ({ item }) => {
+export const ItemCard: NextPage<ItemProps> = ({ item, update, setUpdate }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [image, setImage] = useState<string>("");
   const [isLoading, setLoading] = useState(false);
@@ -53,7 +55,13 @@ export const ItemCard: NextPage<ItemProps> = ({ item }) => {
           </CardContent>
         </CardActionArea>
       </Card>
-      <ShowItem open={open} setOpen={setOpen} item={item} />
+      <ShowItem
+        open={open}
+        setOpen={setOpen}
+        item={item}
+        update={update}
+        setUpdate={setUpdate}
+      />
     </>
   );
 };

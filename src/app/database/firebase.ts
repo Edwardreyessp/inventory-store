@@ -1,5 +1,13 @@
 import { Item } from "@/interfaces";
-import { getDatabase, ref, child, set, get } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  child,
+  set,
+  get,
+  update,
+  remove,
+} from "firebase/database";
 import { initializeApp } from "firebase/app";
 import {
   getDownloadURL,
@@ -51,6 +59,32 @@ export const getItems = (): Promise<Item[]> => {
         reject(error); // Rechaza la promesa con el error si ocurre alguna excepción
       });
   });
+};
+
+export const updateItem = (item: Item) => {
+  const itemRef = ref(db, `items/${item.id}`);
+
+  update(itemRef, item)
+    .then(() => {
+      console.log("Item updated successfully");
+    })
+    .catch((error) => {
+      console.error("Error updating item:", error);
+      throw error;
+    });
+};
+
+export const deleteItem = (itemId: string) => {
+  const itemRef = ref(db, `items/${itemId}`);
+
+  return remove(itemRef)
+    .then(() => {
+      console.log("Item deleted successfully");
+    })
+    .catch((error) => {
+      console.error("Error deleting item:", error);
+      throw error;
+    });
 };
 
 export const uploadImage = (file: File) => {
