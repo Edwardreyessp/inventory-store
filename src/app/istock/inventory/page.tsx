@@ -6,7 +6,7 @@ import { Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Item } from "../../../interfaces/item";
 import { getItems } from "../database/firebase";
-import RootLayout from "@/app/page";
+import MainPage from "@/app/page";
 
 const InventoryPage = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -30,7 +30,7 @@ const InventoryPage = () => {
   }
 
   return (
-    <RootLayout>
+    <MainPage>
       <Box display="flex" gap={2} mb={5}>
         <Typography variant="h1" component="h1">
           Inventario
@@ -59,7 +59,7 @@ const InventoryPage = () => {
         update={update}
         setUpdate={setUpdate}
       />
-    </RootLayout>
+    </MainPage>
   );
 };
 

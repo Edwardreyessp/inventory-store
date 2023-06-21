@@ -5,11 +5,7 @@ import { lightTheme } from "@/theme";
 import { Navbar } from "@/components/ui";
 import { usePathname } from "next/navigation";
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const MainPage = ({ children }: { children: React.ReactNode }) => {
   const path = usePathname();
   const isAuth = path.includes("auth");
 
@@ -19,4 +15,6 @@ export default function RootLayout({
       <>{isAuth ? <>{children}</> : <Navbar>{children}</Navbar>}</>
     </ThemeProvider>
   );
-}
+};
+
+export default MainPage;

@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect } from "react";
-import RootLayout from "../page";
+import MainPage from "../page";
 
 const HomePage = () => {
   useEffect(() => {
@@ -76,7 +76,7 @@ const HomePage = () => {
   ];
 
   return (
-    <RootLayout>
+    <MainPage>
       <Grid container spacing={2} mb={4}>
         <Grid item xs={8}>
           <Card sx={{ display: "flex", background: "#DBF8E5" }}>
@@ -153,7 +153,7 @@ const HomePage = () => {
           <Record items={items} />
         </Grid>
       </Grid>
-    </RootLayout>
+    </MainPage>
   );
 };
 
