@@ -1,5 +1,5 @@
 "use client";
-import { Navbar, Record, StatsCard } from "@/components/ui";
+import { Record, StatsCard } from "@/components/ui";
 import { Shop2TwoTone } from "@mui/icons-material";
 import {
   Box,
@@ -11,8 +11,17 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { useEffect } from "react";
 
 const HomePage = () => {
+  useEffect(() => {
+    const uid = localStorage.getItem("uid");
+    console.log(uid);
+    if (!uid) {
+      location.href = "/auth/login";
+    }
+  }, []);
+
   const statsCards = [
     {
       number: "104k",

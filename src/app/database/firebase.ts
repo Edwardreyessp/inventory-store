@@ -15,6 +15,15 @@ import {
   ref as storageRef,
   uploadBytes,
 } from "firebase/storage";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  setPersistence,
+  browserSessionPersistence,
+} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCEX7zLfqAHWP0Xvldg9V9j8NZWokcPTzA",
@@ -31,6 +40,67 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const dbRef = ref(db);
 const storage = getStorage(app);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+export const registerEmail = (
+  email: string,
+  password: string
+): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        const uid: string = user?.uid!.toString()!;
+        resolve(uid);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        reject(error);
+      });
+  });
+};
+
+export const loginEmail = (
+  email: string,
+  password: string
+): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        const uid: string = user?.uid!.toString()!;
+        resolve(uid);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log("Mi error");
+        reject(error);
+      });
+  });
+};
+
+export const loginGoogle = (): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result)!;
+        const token = credential.accessToken!;
+        const user = result.user;
+        const uid: string = user?.uid!.toString()!;
+        resolve(uid); // Resuelve la promesa con el valor asignado al local storage
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.customData.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        reject(error); // Rechaza la promesa con el error
+      });
+  });
+};
 
 export const createItem = (item: Item, file: File) => {
   const reference = storageRef(storage, "images/" + file.name);
