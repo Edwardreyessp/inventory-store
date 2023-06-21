@@ -8,10 +8,10 @@ import { usePathname } from "next/navigation";
 
 const publicSans = Public_Sans({ subsets: ["latin"] });
 
-export const metadata = {
-  title: "iStock",
-  description: "Proyecto final de Ingeniería de Software | ESCOM",
-};
+// export const metadata = {
+//   title: "iStock",
+//   description: "Proyecto final de Ingeniería de Software | ESCOM",
+// };
 
 export default function RootLayout({
   children,
@@ -23,6 +23,14 @@ export default function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <title>iStock</title>
+        <meta
+          name="description"
+          content={"Proyecto final de Ingeniería de Software | ESCOM"}
+        />
+      </head>
       <ThemeProvider theme={lightTheme}>
         <CssBaseline />
         <body className={publicSans.className}>
