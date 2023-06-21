@@ -1,5 +1,4 @@
 "use client";
-import "./globals.css";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import { lightTheme } from "@/theme";
 import { Navbar } from "@/components/ui";
