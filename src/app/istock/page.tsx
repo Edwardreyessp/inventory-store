@@ -1,5 +1,5 @@
 "use client";
-import { Record, StatsCard } from "@/components/ui";
+import { GroupMain, Record, StatsCard } from "@/components/ui";
 import { Shop2TwoTone } from "@mui/icons-material";
 import {
   Box,
@@ -12,7 +12,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect } from "react";
-import MainPage from "../page";
 
 const HomePage = () => {
   useEffect(() => {
@@ -76,7 +75,7 @@ const HomePage = () => {
   ];
 
   return (
-    <MainPage>
+    <GroupMain>
       <Grid container spacing={2} mb={4}>
         <Grid item xs={8}>
           <Card sx={{ display: "flex", background: "#DBF8E5" }}>
@@ -153,7 +152,7 @@ const HomePage = () => {
           <Record items={items} />
         </Grid>
       </Grid>
-    </MainPage>
+    </GroupMain>
   );
 };
 

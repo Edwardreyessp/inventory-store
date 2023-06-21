@@ -1,12 +1,11 @@
 "use client";
 import { ItemCard } from "@/components/cart";
-import { CreateItem } from "@/components/ui";
+import { CreateItem, GroupMain } from "@/components/ui";
 import { Add } from "@mui/icons-material";
 import { Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Item } from "../../../interfaces/item";
 import { getItems } from "../database/firebase";
-import MainPage from "@/app/page";
 
 const InventoryPage = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -30,7 +29,7 @@ const InventoryPage = () => {
   }
 
   return (
-    <MainPage>
+    <GroupMain>
       <Box display="flex" gap={2} mb={5}>
         <Typography variant="h1" component="h1">
           Inventario
@@ -59,7 +58,7 @@ const InventoryPage = () => {
         update={update}
         setUpdate={setUpdate}
       />
-    </MainPage>
+    </GroupMain>
   );
 };
 
