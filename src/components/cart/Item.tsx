@@ -11,7 +11,7 @@ import {
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { ShowItem } from "../ui";
-import { getItemImage } from "../../app/database/firebase";
+import { getItemImage } from "../../app/istock/database/firebase";
 
 export interface ItemProps {
   item: Item;

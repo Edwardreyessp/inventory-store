@@ -111,8 +111,8 @@ export const Navbar: NextPage<Props> = ({ children }) => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const sections = [
-    { text: "Inicio", path: "/", icon: Inbox },
-    { text: "Inventario", path: "/inventory", icon: Mail },
+    { text: "Inicio", path: "/istock", icon: Inbox },
+    { text: "Inventario", path: "/istock/inventory", icon: Mail },
   ];
 
   const handleDrawerOpen = () => {

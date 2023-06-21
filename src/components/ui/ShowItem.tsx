@@ -1,4 +1,8 @@
-import { deleteItem, getItemImage, updateItem } from "@/app/database/firebase";
+import {
+  deleteItem,
+  getItemImage,
+  updateItem,
+} from "@/app/istock/database/firebase";
 import { Item } from "@/interfaces";
 import {
   Delete,

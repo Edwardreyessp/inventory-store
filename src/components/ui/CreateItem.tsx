@@ -13,7 +13,7 @@ import Image from "next/image";
 import { FC, useState } from "react";
 import Draggable from "react-draggable";
 import { useDropzone } from "react-dropzone";
-import { createItem, uploadImage } from "../../app/database/firebase";
+import { createItem, uploadImage } from "../../app/istock/database/firebase";
 import { Item } from "@/interfaces";
 import { uuid } from "uuidv4";
 
